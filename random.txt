@@ -1,0 +1,1 @@
+ "https://api.open-meteo.com/v1/forecast?latitude=38.7167&longitude=-9.1333&current=temperature_2m"

@@ -6,6 +6,7 @@ import { CommentForm } from "@/components/CommentForm";
 import LoadingDots from "@/components/ui/LoadingDots";
 import RelatedAuthorPosts from "@/components/exercises/RelatedAuthorPosts";
 import SmallCardSkeleton from "@/components/ui/SmallCardSkeleton";
+import { getPostComments } from "@/lib/posts";
 import { ChevronLeft } from "lucide-react";
 
 export default async function PostPage({

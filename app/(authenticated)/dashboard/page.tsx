@@ -2,6 +2,7 @@ import { getUserInfo } from "@/actions/auth";
 import AuthorDrafts from "@/components/AuthorDrafts";
 import AuthorPosts from "@/components/AuthorPosts";
 import LoadingDots from "@/components/ui/LoadingDots";
+import Weather from "@/components/Weather";
 import { FileText, SquarePen } from "lucide-react";
 import { redirect } from "next/navigation";
 import { Suspense } from "react";
@@ -49,6 +50,11 @@ export default async function page() {
               <AuthorDrafts userId={user.id} />
             </Suspense>
           </div>
+        </section>
+        <section>
+          <Suspense fallback={<LoadingDots />}>
+            <Weather />
+          </Suspense>
         </section>
       </div>
     </div>
