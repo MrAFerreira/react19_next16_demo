@@ -15,7 +15,7 @@ import { redirect } from "next/navigation";
 
 export async function createPost(
   state: CreatePostFormState,
-  formData: FormData
+  formData: FormData,
 ) {
   const session = await auth.api.getSession({ headers: await headers() });
   if (!session) {
@@ -55,8 +55,7 @@ export async function createPost(
     };
   }
 
-  revalidatePath("/posts");
-  revalidatePath("/dashboard");
+  revalidateTag("posts-latest", "max");
   redirect("/dashboard");
 }
 
@@ -111,7 +110,6 @@ export async function editPost(formData: FormData) {
     };
   }
   updateTag(`post-${postId}`);
-  revalidateTag(`post-${postId}`, "max");
   redirect(`/posts/${postId}`);
 }
 
@@ -164,7 +162,7 @@ export async function likePost(postId: number) {
   }
 
   try {
-    await new Promise(resolve => setTimeout(resolve, 2000));
+    await new Promise((resolve) => setTimeout(resolve, 2000));
     const existing = await prisma.like.findFirst({
       where: { postId, userId: session.user.id },
     });
@@ -236,7 +234,7 @@ export async function addComent(formData: FormData) {
 // Semelhante à função acima mas com types
 export async function createComment(
   state: CreateCommentFormState,
-  formData: FormData
+  formData: FormData,
 ) {
   const session = await auth.api.getSession({ headers: await headers() });
   if (!session) {
@@ -275,9 +273,4 @@ export async function createComment(
       message: "Error commenting.Please try again.",
     };
   }
-}
-
-export async function revalidatePosts() {
-  revalidateTag("posts-latest", "max");
-  revalidateTag("posts-popular", "max");
 }
