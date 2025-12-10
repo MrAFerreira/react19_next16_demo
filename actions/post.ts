@@ -15,7 +15,7 @@ import { redirect } from "next/navigation";
 
 export async function createPost(
   state: CreatePostFormState,
-  formData: FormData,
+  formData: FormData
 ) {
   const session = await auth.api.getSession({ headers: await headers() });
   if (!session) {
@@ -162,7 +162,7 @@ export async function likePost(postId: number) {
   }
 
   try {
-    await new Promise((resolve) => setTimeout(resolve, 2000));
+    await new Promise(resolve => setTimeout(resolve, 2000));
     const existing = await prisma.like.findFirst({
       where: { postId, userId: session.user.id },
     });
@@ -220,6 +220,7 @@ export async function addComent(formData: FormData) {
         content,
       },
     });
+
     updateTag(`post-${+postId}-comments`);
     return { success: true };
   } catch (error) {
@@ -234,7 +235,7 @@ export async function addComent(formData: FormData) {
 // Semelhante à função acima mas com types
 export async function createComment(
   state: CreateCommentFormState,
-  formData: FormData,
+  formData: FormData
 ) {
   const session = await auth.api.getSession({ headers: await headers() });
   if (!session) {

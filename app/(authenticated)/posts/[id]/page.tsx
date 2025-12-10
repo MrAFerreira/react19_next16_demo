@@ -6,8 +6,9 @@ import { CommentForm } from "@/components/CommentForm";
 import LoadingDots from "@/components/ui/LoadingDots";
 import RelatedAuthorPosts from "@/components/exercises/RelatedAuthorPosts";
 import SmallCardSkeleton from "@/components/ui/SmallCardSkeleton";
-import { getPostComments } from "@/lib/posts";
+import { getPostComments, getRelatedPostsFromAuthor } from "@/lib/posts";
 import { ChevronLeft } from "lucide-react";
+import CommentsList from "@/components/CommentsList";
 
 export default async function PostPage({
   params,
@@ -16,7 +17,10 @@ export default async function PostPage({
 }) {
   const { id } = await params;
 
+  const commentsPromise = getPostComments(+id);
+
   //Exercise : create the variable to hold the related authors post promise and pass it as a prop to "RelatedAuthorPosts"
+  // use the method "getRelatedPostsFromAuthor" that accepts the id of the post (just like the getPostComments function)
 
   return (
     <div className="container mx-auto px-4 py-8 max-w-4xl">
@@ -53,13 +57,18 @@ export default async function PostPage({
         </div>
 
         <div className="card bg-base-100 shadow-lg">
-          <div className="card-body">{/* CommentForm goes here */}</div>
+          <div className="card-body">
+            <CommentForm postId={+id} />
+          </div>
         </div>
 
         <div className="card bg-base-100 shadow-lg">
           <div className="card-body">
             <h3 className="card-title text-lg mb-4">Comments</h3>
             {/* Comments go here*/}
+            <Suspense fallback={<LoadingDots />}>
+              <CommentsList commentsPromise={commentsPromise} />
+            </Suspense>
           </div>
         </div>
       </div>

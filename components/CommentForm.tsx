@@ -1,8 +1,23 @@
 "use client";
 
+import { addComent, createComment } from "@/actions/post";
+import { useActionState } from "react";
+
+/* const commentFormAction = async (previousState, formData) => {
+      const state = await addComent(formData);
+      if (state.errors) {
+        return state;
+      }
+      return null;
+    }
+ */
 export function CommentForm({ postId }: { postId: number }) {
-  return null;
-  /*  return (
+  const [state, action, pending] = useActionState(createComment, null);
+
+  //useActionState
+  // action
+  //initialState
+  return (
     <form
       action={action}
       className="flex flex-col gap-4">
@@ -53,5 +68,5 @@ export function CommentForm({ postId }: { postId: number }) {
         )}
       </div>
     </form>
-  ); */
+  );
 }

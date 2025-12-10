@@ -1,9 +1,14 @@
 "use client";
 
 import { CommentWithAuthor } from "@/lib/posts";
+import { use } from "react";
 
-export default function CommentsList() {
-  const comments: any[] = [];
+export default function CommentsList({
+  commentsPromise,
+}: {
+  commentsPromise: Promise<CommentWithAuthor[]>;
+}) {
+  const comments = use(commentsPromise);
 
   if (comments.length === 0) {
     return (
