@@ -210,3 +210,23 @@ export async function getPostComments(
 
   return comments || [];
 }
+
+export async function getLatestComments(
+  limit: number
+): Promise<(CommentWithAuthor & { post: { id: number; title: string } })[]> {
+  const comments = await prisma.comment.findMany({
+    orderBy: {
+      createdAt: "desc",
+    },
+    take: limit,
+    include: {
+      author: {
+        select: { name: true },
+      },
+      post: {
+        select: { id: true, title: true },
+      },
+    },
+  });
+  return comments || [];
+}

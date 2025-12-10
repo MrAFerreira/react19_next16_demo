@@ -4,7 +4,7 @@ import { PostInfo } from "@/lib/posts";
 import Link from "next/link";
 import { use } from "react";
 
-export default function RelatedAuthorPosts({
+export default function RelatedAuthorPostsSolution({
   relatedPostsPromise,
 }: {
   relatedPostsPromise: Promise<PostInfo[]>;
