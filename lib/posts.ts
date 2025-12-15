@@ -41,6 +41,7 @@ export async function getLatestPosts(limit: number): Promise<PostInfo[]> {
     take: limit,
   });
 
+  await new Promise(resolve => setTimeout(resolve, 2000));
   return posts.map(post => ({
     id: post.id,
     title: post.title,

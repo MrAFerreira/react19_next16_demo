@@ -55,7 +55,7 @@ export async function createPost(
     };
   }
 
-  //revalidateTag("posts-latest", "max");
+  revalidateTag("posts-latest", "max");
   redirect("/");
 }
 

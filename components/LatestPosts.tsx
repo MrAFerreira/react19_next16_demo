@@ -6,6 +6,14 @@ import Link from "next/link";
 export default async function LatestPosts() {
   "use cache";
   cacheLife("minutes");
+  /*     cacheLife({
+    stale: 60 * 60 * 24 * 14,
+    revalidate: 60 * 60,
+    expire: 60 * 60 * 24 * 30,
+  });
+  cacheLife("biweekly");
+  
+  cacheLife("products");  */
   cacheTag("posts-latest");
   const posts = await getLatestPosts(3);
 
