@@ -15,15 +15,15 @@ export function LikeButton({
   const [likedState, setLikedState] = useState(liked);
   const [optimisticLike, setOptimisticLike] = useOptimistic(
     likedState,
-    (_likedState: boolean, newLikedState: boolean) => newLikedState,
+    (_likedState: boolean, newLikedState: boolean) => newLikedState
   );
 
   const handleLike = () => {
     startTransition(async () => {
       setOptimisticLike(!optimisticLike);
       const result = await likePost(postId);
-      if (typeof result === "boolean") {
-        setLikedState(result);
+      if (result.success) {
+        setLikedState(result.liked);
       }
     });
   };
@@ -31,9 +31,10 @@ export function LikeButton({
   return (
     <button
       onClick={handleLike}
-      disabled={isPending}
-      className={`btn ${optimisticLike ? "btn-warning" : "btn-primary"} gap-2`}
-    >
+      /*
+      we can disable it to avoid the user spamming the button
+      disabled={isPending} */
+      className={`btn ${optimisticLike ? "btn-warning" : "btn-primary"} gap-2`}>
       {optimisticLike ? <Heart fill="black" /> : <Heart />}
       {optimisticLike ? "Unlike" : "Like"}
     </button>

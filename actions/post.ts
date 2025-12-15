@@ -55,8 +55,8 @@ export async function createPost(
     };
   }
 
-  revalidateTag("posts-latest", "max");
-  redirect("/dashboard");
+  //revalidateTag("posts-latest", "max");
+  redirect("/");
 }
 
 export async function editPost(formData: FormData) {
@@ -151,12 +151,16 @@ export async function likePost(postId: number) {
   const session = await auth.api.getSession({ headers: await headers() });
   if (!session) {
     return {
+      success: false,
+      liked: false,
       message: "You must be signed in to like a post.",
     };
   }
 
   if (!postId) {
     return {
+      success: false,
+      liked: false,
       message: "Post ID is required.",
     };
   }
@@ -171,7 +175,7 @@ export async function likePost(postId: number) {
       await prisma.like.deleteMany({
         where: { postId, userId: session.user.id },
       });
-      return false;
+      return { success: true, liked: false };
     }
 
     await prisma.like.create({
@@ -180,10 +184,12 @@ export async function likePost(postId: number) {
         userId: session.user.id,
       },
     });
-    return true;
+    return { success: true, liked: true };
   } catch (error) {
     console.error(error);
     return {
+      success: false,
+      liked: false,
       message: "Error updating like. Please try again.",
     };
   }
