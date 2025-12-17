@@ -1,3 +1,4 @@
+import CounterSection from "@/components/CounterSection";
 import LoadingDots from "@/components/ui/LoadingDots";
 import UpdateUserName from "@/components/UpdateUsername";
 import UserProfile from "@/components/UserProfile";
@@ -13,13 +14,15 @@ export default async function page() {
               <div className="flex justify-center py-8">
                 <LoadingDots />
               </div>
-            }>
+            }
+          >
             <UserProfile />
           </Suspense>
           <div className="divider"></div>
           <UpdateUserName />
         </div>
       </div>
+      <CounterSection />
     </div>
   );
 }

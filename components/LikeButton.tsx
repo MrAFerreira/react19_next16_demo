@@ -15,7 +15,7 @@ export function LikeButton({
   const [likedState, setLikedState] = useState(liked);
   const [optimisticLike, setOptimisticLike] = useOptimistic(
     likedState,
-    (_likedState: boolean, newLikedState: boolean) => newLikedState
+    (currentState: boolean, newLikedState: boolean) => newLikedState,
   );
 
   const handleLike = () => {
@@ -34,7 +34,8 @@ export function LikeButton({
       /*
       we can disable it to avoid the user spamming the button
       disabled={isPending} */
-      className={`btn ${optimisticLike ? "btn-warning" : "btn-primary"} gap-2`}>
+      className={`btn ${optimisticLike ? "btn-warning" : "btn-primary"} gap-2`}
+    >
       {optimisticLike ? <Heart fill="black" /> : <Heart />}
       {optimisticLike ? "Unlike" : "Like"}
     </button>
