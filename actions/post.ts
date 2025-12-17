@@ -167,6 +167,7 @@ export async function likePost(postId: number) {
 
   try {
     await new Promise(resolve => setTimeout(resolve, 2000));
+
     const existing = await prisma.like.findFirst({
       where: { postId, userId: session.user.id },
     });

@@ -5,12 +5,12 @@ import Counter from "./Counter";
 
 export default function CounterSection() {
   const [showCounter, setShowCounter] = useState(false);
+
   return (
     <div className="mt-4">
       <button
         className="btn btn-primary"
-        onClick={() => setShowCounter(!showCounter)}
-      >
+        onClick={() => setShowCounter(!showCounter)}>
         {showCounter ? "Hide" : "Show"}
       </button>
 

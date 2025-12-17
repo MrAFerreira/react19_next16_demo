@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { Suspense } from "react";
 import PostContent from "@/components/PostContent";
+import { auth } from "@/lib/auth";
+import { getPostByIdWithLikes } from "@/lib/posts";
 import { LikeButton } from "@/components/LikeButton";
 import { CommentForm } from "@/components/CommentForm";
 import LoadingDots from "@/components/ui/LoadingDots";
@@ -9,6 +11,8 @@ import SmallCardSkeleton from "@/components/ui/SmallCardSkeleton";
 import { getPostComments, getRelatedPostsFromAuthor } from "@/lib/posts";
 import { ChevronLeft } from "lucide-react";
 import CommentsList from "@/components/CommentsList";
+import { headers } from "next/headers";
+import { notFound } from "next/navigation";
 
 export default async function PostPage({
   params,
@@ -16,6 +20,14 @@ export default async function PostPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
+
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+  const post = await getPostByIdWithLikes(+id, session?.user?.id ?? "");
+  if (!post) {
+    notFound();
+  }
 
   const commentsPromise = getPostComments(+id);
 
@@ -52,7 +64,7 @@ export default async function PostPage({
         <div className="flex items-center gap-4">
           <LikeButton
             postId={+id}
-            liked={false}
+            liked={post?.liked || false}
           />
         </div>
 

@@ -141,6 +141,16 @@ export async function getPostByIdWithLikes(
   };
 }
 
+export async function checkIfUserLikedPost(
+  postId: number,
+  userId: string
+): Promise<boolean> {
+  const like = await prisma.like.findFirst({
+    where: { postId, userId },
+  });
+  return !!like;
+}
+
 export async function getAuthorPosts(authorId: string): Promise<PostInfo[]> {
   const posts = await prisma.post.findMany({
     where: {
